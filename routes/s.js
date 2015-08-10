@@ -97,15 +97,15 @@ router.get('/transactionTest/commit', function(req, res, next) {
     console.log('connected as id ' + connection.threadId);
   });
   connection.beginTransaction(function(err) {
-    if (err) { throw err; }
-    connection.query('INSERT INTO tb_board SET content=?', 'content ddd', function(err, result) {
-      if (err) {
-        return connection.rollback(function() {
-          connection.end(function(err) {
-            // The connection is terminated now
-          });
-          throw err;
-        });
+          if (err) { throw err; }
+          connection.query('INSERT INTO tb_board SET content=?', 'content ddd', function(err, result) {
+            if (err) {
+              return connection.rollback(function() {
+                connection.end(function(err) {
+                  // The connection is terminated now
+                });
+                throw err;
+              });
       }
 
       console.log(result);
@@ -142,6 +142,11 @@ router.get('/transactionTest/commit', function(req, res, next) {
     });
   });
   res.send('transaction finished');
+});
+
+
+router.get('/transactionTest/commit', function(req, res, next) {
+
 });
 
 module.exports = router;
