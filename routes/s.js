@@ -7,6 +7,8 @@ var executeManager = require('../user_modules/sanghwa/execute-manager');
 
 /**
  *  test url
+ *  1. 127.0.0.1:3000/s/nottransactionTest/test1
+ *  2.
  */
 
 /* GET users listing. */
@@ -20,12 +22,16 @@ router.get('/insert/user', function(req, res, next) {
 });
 
 router.get('/nottransactionTest/test1', function(req, res, next) {
-  console.log(taskM);
-  console.log(taskM.makeTasks());
-  console.log(executeManager.start(res, taskM.makeTasks(), false));
 
+  var tasks = taskM.makeTasks();
 
+  var query = "INSERT INTO `node`.`tb_board` (CONTENT)   VALUES  ('hoho2')";
+  var query2 = "INSERT INTO `node`.`tb_board_reply` (`CONTENT`,  `BOARD_SEQ`)  VALUES  (      'data2',      6)";
 
+  tasks.push(taskM.getTask('','','',function(){}, query));
+  tasks.push(taskM.getTask('','','',function(){}, query2));
+
+  executeManager.start(res, tasks, false);
 });
 
 router.get('/transactionTest/rollback', function(req, res, next) {

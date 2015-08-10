@@ -4,13 +4,13 @@
 
 // xml 기반으로 가자
 var taskManager = function(){};
-taskManager.prototype.getTask = function(queryMenu, queryId, filed, callback){
+taskManager.prototype.getTask = function(queryMenu, queryId, filed, callback, testQuery){
     var task = {
             'queryMenu' : queryMenu,
             'queryId' : queryId,
             'filed' : filed,
             'callback' : callback,
-            'testQuery' : null
+            'testQuery' : testQuery
         };
     return task;
 }

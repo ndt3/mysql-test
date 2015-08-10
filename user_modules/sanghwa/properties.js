@@ -28,8 +28,8 @@ var properties_dev ={
     connectionLimit : '100',
     host     : 'localhost',
     user     : 'node',
-    password : 'node',
-    database : 'barusoft11',
+    password : 'barusoft11',
+    database : 'node',
     debug    :  false
 }
 
