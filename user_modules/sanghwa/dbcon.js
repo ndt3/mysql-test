@@ -2,7 +2,7 @@
  * Created by ddavid on 2015-04-16.
  */
 var mysql     =    require('mysql');
-var config     =    require('properties');
+var config     =    require('./properties');
 var pool = null;
 pool      =    mysql.createPool({
     connectionLimit : config.connectionLimit, //important

@@ -9,7 +9,8 @@ taskManager.prototype.getTask = function(queryMenu, queryId, filed, callback){
             'queryMenu' : queryMenu,
             'queryId' : queryId,
             'filed' : filed,
-            'callback' : callback
+            'callback' : callback,
+            'testQuery' : null
         };
     return task;
 }
@@ -19,4 +20,4 @@ taskManager.prototype.makeTasks = function(){
     return [];
 }
 
-module.exports = taskManager;
+module.exports = new taskManager();

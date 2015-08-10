@@ -2,7 +2,12 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 
+var taskM = require('../user_modules/sanghwa/task');
+var executeManager = require('../user_modules/sanghwa/execute-manager');
 
+/**
+ *  test url
+ */
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -14,6 +19,14 @@ router.get('/insert/user', function(req, res, next) {
   res.send('this first time to check url pattern');
 });
 
+router.get('/nottransactionTest/test1', function(req, res, next) {
+  console.log(taskM);
+  console.log(taskM.makeTasks());
+  console.log(executeManager.start(res, taskM.makeTasks(), false));
+
+
+
+});
 
 router.get('/transactionTest/rollback', function(req, res, next) {
   var connection = mysql.createConnection(

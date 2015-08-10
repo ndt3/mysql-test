@@ -3,13 +3,21 @@
  */
 
 var dbCon= require("./dbcon");
-var executeManager = function(res, tasks, isTransaction){
+var executeManager = function(){
+
+};
+
+executeManager.prototype.start = function (res, tasks, isTransaction ){
     if(isTransaction){
+        console.log('transaction 필요');
         // 트랜잭션 manager를 태우고
     }else{
+        console.log('transaction 필요');
         // request를 진행한다.
+
+        this.execute(res, tasks);
     }
-};
+}
 
 /**
  * transaction을 지원하는
@@ -25,7 +33,7 @@ executeManager.prototype.executeTransaction = function(tasks){
 
         if(tasks.length>0){
             // query를 날리지요
-            query(connection , tasks );
+            this.query(connection , tasks );
         }
 
         connection.on('error', function (err) {
@@ -34,10 +42,10 @@ executeManager.prototype.executeTransaction = function(tasks){
         });
     });};
 
-executeManager.prototype.execute = function(tasks){
+executeManager.prototype.execute = function(res, tasks){
     dbCon.getConnection(function (err, connection) {
+
         if (err) {
-            connection.release();
             res.json({"code": 100, "status": "Error in connection database"});
             return;
         }
@@ -47,9 +55,7 @@ executeManager.prototype.execute = function(tasks){
             try{
                 query(connection , tasks );
             }catch(e){
-
             }
-
         }
 
         connection.on('error', function (err) {
@@ -64,7 +70,9 @@ executeManager.prototype.query = function(connection, tasks){
     if(tasks.length> 0){
         // queue 방식을 사용하기 위해.
         var task = tasks.shift();
-        var query = getQuery(task.queryMenu, task.queryId, task.filed, task.data);
+        // var query = getQuery(task.queryMenu, task.queryId, task.filed, task.data);
+        var query = task.testQuery;
+
         connection.query(query
             , function (err, rows) {
 
@@ -76,7 +84,6 @@ executeManager.prototype.query = function(connection, tasks){
                             query(connection, tasks);
                         }else{
                             // query 가 정상적으로 끝난경우.
-                            connection.commit();
                             connection.release();
                         }
                     });
@@ -89,4 +96,4 @@ executeManager.prototype.query = function(connection, tasks){
     }
 };
 
-module.exports = 'executeManager';
+module.exports = new executeManager();
