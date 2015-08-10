@@ -32,8 +32,7 @@ executeManager.prototype.executeTransaction = function(tasks){
             res.json({"code": 100, "status": "Error in connection database"});
             return;
         });
-    });
-};
+    });};
 
 executeManager.prototype.execute = function(tasks){
     dbCon.getConnection(function (err, connection) {
