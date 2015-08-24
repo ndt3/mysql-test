@@ -12,7 +12,6 @@ ExecuteManager.prototype.start = function (res, tasks, isTransaction ){
     }else{
         console.log('transaction 불 필요');
         // request를 진행한다.
-
         this.execute(res, tasks);
     }
 }
@@ -95,11 +94,11 @@ ExecuteManager.prototype.query = function(res, connection, tasks){
                 }else{
                     // error 처리를 해야함
                     console.log(err);
+                    res.json({"code": 100, "status": "Error in connection database"});
                     connection.release();
                 }
             });
     }
 };
-
 var executeManager= new ExecuteManager();
 module.exports = executeManager;

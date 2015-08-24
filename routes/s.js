@@ -4,6 +4,8 @@ var mysql = require('mysql');
 
 var taskM = require('../user_modules/sanghwa/task');
 var executeManager = require('../user_modules/sanghwa/execute-manager');
+var queryParser= require('../user_modules/sanghwa/query-parser');
+var queryStorage= require('../user_modules/sanghwa/query-storage');
 
 /**
  *  test url
@@ -21,8 +23,22 @@ router.get('/insert/user', function(req, res, next) {
   res.send('this first time to check url pattern');
 });
 
-router.get('/nottransactionTest/test1', function(req, res, next) {
+router.get('/file/read', function(req, res, next) {
 
+
+  var queryarr = queryStorage.queryMap['test'];
+  console.log(queryarr['select_tb_board_reply']);
+
+  res.send('fileRead Complete');
+  // time check
+  console.time('1');
+  for(var i=0; i<5; i++){
+
+  }
+  console.timeEnd('1');
+});
+
+router.get('/nottransactionTest/test1', function(req, res, next) {
   var tasks = taskM.makeTasks();
 
   var query = "INSERT INTO `node`.`tb_board` (CONTENT)   VALUES  ('hoho2')";

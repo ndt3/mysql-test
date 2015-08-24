@@ -1,0 +1,41 @@
+--  게시판 글 입력
+{test:insert_tb_board}
+	INSERT INTO `node`.`tb_board`
+		(CONTENT)
+	VALUES
+		('#content#')
+{/test:insert_tb_board}
+
+-- 게시판 글 답글 입력
+{test:insert_tb_board_reply}
+	INSERT INTO `node`.`tb_board_reply`
+		(`CONTENT`,  `BOARD_SEQ`)
+	VALUES
+		('data2', 6)
+{/test:insert_tb_board_reply}
+
+-- 게시판 답글 불러오기
+{test:select_tb_board_reply}
+	select * from  tb_board_reply
+	where
+		1=1
+	[content]
+		and content = '#content#'
+	[content]
+	[content]
+    	and	content = '#content#'
+    [content]
+    	[content]
+        	and	content = '#query#'
+        [content]
+        	[content]
+            	and	content = '#content#'
+            [content]
+            	[content]
+                	and	content = '#content#'
+                [content]
+                	[content]
+                    	and	content = '#content#'
+                    [content]
+
+{/test:insert_tb_board_reply}
