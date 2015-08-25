@@ -78,6 +78,73 @@ var qp = function(){
             }
         }
         return;
+    },
+
+
+    this.parsingQuery = function(data, filed){
+        var startIndex = -1;
+        var endIndex = -1;
+
+        var lastStartIndex = -1;
+        var lastEndIndex = -1;
+
+        var currentPosition =0;
+
+        var realQuery = '';
+
+        for(var i = 0;i < data.length;i++){
+            if(startIndex == -1){
+                if(data[i] == '['){
+                    startIndex = i;
+                    realQuery += data.substring(currentPosition, i);
+                }
+            }else{
+                if(data[i] == ']'){
+                    endIndex =i;
+                }else if(data[i] == '['){
+                    if(data[i+1] == '/'){
+                        lastStartIndex = i;
+                        lastEndIndex = i+2;
+                        i = i+2;
+
+                        // doing action
+                        console.log("startIndex", startIndex);
+
+                        console.log("endIndex", endIndex);
+                        console.log("lastStartIndex", lastStartIndex);
+                        console.log("lastEndIndex", lastEndIndex);
+
+                        console.log(data.substring(startIndex+1, endIndex));
+                        console.log(data.substring(endIndex+1, lastStartIndex));
+
+                        var checkVal = data.substring(startIndex+1, endIndex);
+
+                        // 만약에 null 이면 모두 짜른다
+                        if(filed[checkVal] != null){
+                            realQuery += data.substring(endIndex+1, lastStartIndex);
+                        }
+
+                        // 초기화
+                        startIndex = -1;
+                        endIndex = -1;
+
+                        lastStartIndex = -1;
+                        lastEndIndex = -1;
+
+                        currentPosition = i+2;
+                        continue;
+                    }else{
+                        console.log('error');
+                    }
+                }
+            }
+        }
+        realQuery += data.substring(currentPosition, data.length);
+
+        console.log("input : " + data);
+        console.log("output : " + realQuery);
+
+        return realQuery;
     }
 };
 

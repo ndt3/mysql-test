@@ -50,6 +50,31 @@ router.get('/nottransactionTest/test1', function(req, res, next) {
   executeManager.start(res, tasks, false);
 });
 
+router.get('/nottransactionTest/test2', function(req, res, next) {
+  var tasks = taskM.makeTasks();
+
+  var query = "INSERT INTO `node`.`tb_board` (CONTENT)   VALUES  ('hoho2')";
+  var query2 = "INSERT INTO `node`.`tb_board_reply` (`CONTENT`,  `BOARD_SEQ`)  VALUES  (      'data2',      6)";
+
+  tasks.push(taskM.getTask('','','',function(){}, query));
+  tasks.push(taskM.getTask('','','',function(){}, query2));
+
+  executeManager.start(res, tasks, false);
+});
+
+router.get('/nottransactionTest/queryparser', function(req, res, next) {
+
+  var data = [];
+  queryParser.parsingQuery("INSERT INTO `node`.`tb_board_reply`  (`CONTENT`,  `BOARD_SEQ`)  VALUES  ('data2', 6)', '')", []);
+  queryParser.parsingQuery("select * from  tb_board_reply where 1=1 [content] and content = '#content#' [/]", data);
+
+  data['content'] = 'new val ';
+  queryParser.parsingQuery("select * from  tb_board_reply where 1=1 [content] and content = '#content#' [/]", data);
+  queryParser.parsingQuery("select * from  tb_board_reply where 1=1 [content] and content = '#content#' [/] and content ='ggg' [content] and content = '#content#' [/] [seq] and content = '#content#' [/]", data);
+
+  res.send('transaction finished');
+});
+
 router.get('/transactionTest/rollback', function(req, res, next) {
   var connection = mysql.createConnection(
       {
